@@ -1,0 +1,19 @@
+.container-fluid {
+    background-color: #FBD603;
+}
+
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+
+
+
+}
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}

@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+
+{% block title %}<title>{{ author.bloger_name }}</title>{% endblock %}
+{% block content %}
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ author.image.url }}" alt="">
+        <div class="media-body">
+            <h2 class="account-heading">{{ author.bloger_name }}</h2>
+            <p class="text-secondary">{{ author.date_of_birth }}  ({{ author.genre }})</p>
+            {% if user.bloger == author %}
+            <a class="text-secondary" href="{% url 'update-profile' %}">Edit information</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</divclass>
+{% for post in posts %}
+      <article class="media content-section">
+          <div class="media-blody">
+              <div class="article-metadata">
+                  <a class="mr-2" href="{% url 'user-info' post.author %}">{{ post.author }}</a>
+                  <small class="text-muted">{{ post.post_date }}</small>
+              </div>
+              <h2><a class="article-title" href="{% url 'blog-info' post.title %}">{{ post.title }}</a></h2>
+          </div>
+      </article>
+{% endfor %}
+{% endblock %}

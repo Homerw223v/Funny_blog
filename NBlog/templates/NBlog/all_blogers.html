@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+
+{% block title %}<title>Bloggers</title>{% endblock %}
+{% block content %}
+<h1>Welcome, {{ user.get_username }}</h1>
+<h2>All bloggers:</h2>
+
+<ul>
+    {% for bloger in blogers %}
+      <p>Bloger name: <a href="{% url 'user-info' bloger.bloger_name %}"><strong>{{ bloger.bloger_name }}</strong></a> ({{ bloger.genre }})
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

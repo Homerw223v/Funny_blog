@@ -1,0 +1,50 @@
+{% extends "base_generic.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ blog.author.image.url }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ blog.author }}</a>
+        <small class="text-muted">{{ blog.post_date|date:"F d, Y" }}</small>
+      </div>
+        {% if blog.author == user.bloger %}
+      <div class="article-metadata">
+          {% else %}
+          <div>
+          {% endif %}
+      <h2 class="article-title">{{ blog.title }}</h2>
+      <p class="article-content">{{ blog.description }}</p>
+      </div>
+      {% if blog.author == user.bloger %}
+      <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'update-blog' blog.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'delete-blog' blog.id %}">Delete</a>
+      </div>
+      {% endif %}
+    </div>
+  </article>
+        <div><h3 class="text-center">Comments:</h3></div>
+        {% for comment in comments %}
+        <article class="media content-section">
+            <div class="media-blody">
+                <div class="article-metadata">
+                    <a class="mr-2" href="{% url 'user-info' comment.author %}">{{ comment.author }}</a>
+                    <small class="text-muted">{{ comment.post_date }}</small>
+                    {% if user.bloger == comment.author %}
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'update-comment' comment.id %}">Edit</a>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'delete-comment' comment.id %}">Delete</a>
+                    {% endif %}
+                </div>
+                <p><a class="article-title" href="{% url 'blog-info' comment.post.title %}">{{ comment.comment }}</a></p>
+            </div>
+        </article>
+      {% endfor %}
+<div>
+    <form method="POST">
+        {% csrf_token %}
+{{ comment_form|crispy }}
+<button class="btn btn-outline-info" type="submit">Add comment</button>
+    </form>
+</div>
+{% endblock %}

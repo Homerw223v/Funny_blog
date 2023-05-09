@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+
+{% block title %}<title>Posts</title>{% endblock %}
+{% block content %}
+<h1>Welcome, {{ user.get_username }}</h1>
+<h2>All blogs:</h2>
+<ul>
+    {% for post in posts %}
+      <p>Post title: <a href="{% url 'blog-info' post.title %}"><strong>{{ post.title }}</strong></a> ({{ post.post_date }}) - <a href="{% url 'user-info' post.author %}">{{ post.author }}</a>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

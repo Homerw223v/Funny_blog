@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+
+{% block title %}<title>Funny blog</title>{% endblock %}
+{% block content %}
+<h1 class="text-center">Welcome, {{ user.get_username }}</h1>
+<ul>
+    {% for post in posts %}
+      <article class="media content-section">
+          <img class="rounded-circle account-img" src="{{ post.author.image.url }}" alt="">
+          <div class="media-blody">
+              <div class="article-metadata">
+                  <a class="mr-2" href="{% url 'user-info' post.author %}">{{ post.author }}</a>
+                  <small class="text-muted">{{ post.post_date }}</small>
+              </div>
+              <h2><a class="article-title" href="{% url 'blog-info' post.title %}">{{ post.title }}</a></h2>
+          </div>
+      </article>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}
