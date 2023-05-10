@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from blog.settings import BASE_DIR
 import os
 
@@ -50,12 +50,18 @@ def user_info(requset, user_name):
     })
 
 
-@login_required
-def all_bloggers(request):
-    bloggers = Bloger.objects.all
-    return render(request, 'NBlog/all_blogers.html', context={
-        'blogers': bloggers,
-    })
+class BlogersListView(LoginRequiredMixin, ListView):
+    model = Bloger
+    template_name = 'NBlog/all_blogers.html'
+    context_object_name = 'blogers'
+    paginate_by = 5
+
+# @login_required
+# def all_bloggers(request):
+#     bloggers = Bloger.objects.all
+#     return render(request, 'NBlog/all_blogers.html', context={
+#         'blogers': bloggers,
+#     })
 
 
 @login_required

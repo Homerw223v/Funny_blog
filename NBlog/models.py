@@ -37,7 +37,7 @@ class Bloger(models.Model):
 
 class Post(models.Model):
     title = models.TextField(max_length=200, help_text='Come up with a title', )
-    post_date = models.DateTimeField(editable=False, max_length=50,
+    post_date = models.DateTimeField(editable=True, max_length=50,
                                      default=datetime.now())
     description = models.TextField(max_length=200000, help_text='Write your post here', verbose_name='Content' )
     author = models.ForeignKey(Bloger, on_delete=models.PROTECT)

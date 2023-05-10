@@ -8,7 +8,16 @@
 
 <ul>
     {% for bloger in blogers %}
-      <p>Bloger name: <a href="{% url 'user-info' bloger.bloger_name %}"><strong>{{ bloger.bloger_name }}</strong></a> ({{ bloger.genre }})
+    <div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ bloger.image.url }}" alt="">
+        <div class="media-body">
+            <h2 class="account-heading">{{ bloger.bloger_name }}</h2>
+            <p class="text-secondary">{{ bloger.date_of_birth }}  ({{ bloger.genre }})</p>
+            <div><p class="text-info">{{ bloger.bloger_bio }}</p></div>
+        </div>
+    </div>
+</div>
     {% endfor %}
 </ul>
 
