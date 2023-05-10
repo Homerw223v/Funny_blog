@@ -27,17 +27,18 @@ def register(request):
         'form': form,
     })
 
+
 @login_required
 def about(request):
     return render(request, 'NBlog/about.html')
 
 
-@login_required
-def home_page(request):
-    posts = Post.objects.order_by('-post_date')[:15]
-    return render(request, 'NBlog/home_page.html', context={
-        'posts': posts,
-    })
+class PostListView(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = 'NBlog/home_page.html'
+    context_object_name = 'posts'
+    ordering = ['-post_date']
+    paginate_by = 10
 
 
 @login_required
@@ -54,14 +55,8 @@ class BlogersListView(LoginRequiredMixin, ListView):
     model = Bloger
     template_name = 'NBlog/all_blogers.html'
     context_object_name = 'blogers'
-    paginate_by = 5
-
-# @login_required
-# def all_bloggers(request):
-#     bloggers = Bloger.objects.all
-#     return render(request, 'NBlog/all_blogers.html', context={
-#         'blogers': bloggers,
-#     })
+    ordering = ['id']
+    paginate_by = 10
 
 
 @login_required
