@@ -2,6 +2,7 @@ from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_view
 
 urlpatterns = [
     path('', views.PostListView.as_view(), name='home-page'),
@@ -17,6 +18,18 @@ urlpatterns = [
     path('delete_blog/<pk>', views.PostDelete.as_view(), name='delete-blog'),
     path('blog/update_comment/<pk>', views.CommentUpdate.as_view(), name='update-comment'),
     path('blog/delete_comment/<pk>', views.CommentDelete.as_view(), name='delete-comment'),
+    # path('password-reset/',
+    #      auth_view.PasswordResetView.as_view(template_name='Password_reset/password_reset.html'),
+    #      name='password-reset'),
+    # path('password-reset/done/',
+    #      auth_view.PasswordResetDoneView.as_view(template_name='Password_reset/password_reset_done.html'),
+    #      name='password-reset-done'),
+    # path('password-reset/', auth_view.PasswordResetView.as_view(template_name='Password_reset/password_reset.html'),
+    #      name='password-reset'),
+    # path('password-reset/', auth_view.PasswordResetView.as_view(template_name='Password_reset/password_reset.html'),
+    #      name='password-reset'),
+    # path('password-reset/', auth_view.PasswordResetView.as_view(template_name='Password_reset/password_reset.html'),
+    #      name='password-reset'),
 ]
 
 if settings.DEBUG:
