@@ -18,12 +18,14 @@
 </divclass>
 {% for post in posts %}
       <article class="media content-section">
+          <img class="rounded-circle account-img" src="{{ post.author.image.url }}" alt="">
           <div class="media-blody">
               <div class="article-metadata">
                   <a class="mr-2" href="{% url 'user-info' post.author %}">{{ post.author }}</a>
                   <small class="text-muted">{{ post.post_date }}</small>
               </div>
-              <h2><a class="article-title" href="{% url 'blog-info' post.title %}">{{ post.title }}</a></h2>
+              <p><a class="article-title font-weight-bold" href="{% url 'blog-info' post.title %}">{{ post.title }}</a></p>
+          <p>{{ post.description|truncatewords:50}}</p>
           </div>
       </article>
 {% endfor %}
