@@ -26,7 +26,7 @@ class Bloger(models.Model):
     def get_absolute_url(self):
         return reverse('bloger', args=[str(self.id)])
 
-    def save(self):
+    def save(self, **kwargs):
         super().save()
         img = Image.open(self.image.path)
         if img.height > 300 or img.width > 300:
