@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_bootstrap4',
     'crispy_forms',
+    'captcha',
 
 ]
 
@@ -139,5 +140,7 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
-
-
+RECAPTCHA_PRIVATE_KEY = '6LcqjgsmAAAAADz_iXtbm2a28mqMmBXAQrZDc72d'
+RECAPTCHA_PUBLIC_KEY = '6LcqjgsmAAAAAG7h7294IRzg_RRleihBqRjbqdZt'
+RECAPTCHA_REQUIRED_SCORE = 0.85
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']

@@ -103,14 +103,6 @@ def UpdateProfile(request):
                                        request.FILES,
                                        instance=request.user.bloger)
         if user_form.is_valid() and bloger_form.is_valid():
-            if request.FILES['image']:
-                try:
-                    os.remove(form.image.path)
-                    form.image = os.path.join(BASE_DIR, 'media/default.jpg')
-                except FileNotFoundError:
-                    pass
-                finally:
-                    form.image = os.path.join(BASE_DIR, 'media/default.jpg')
             user_form.save()
             bloger_form.save()
             messages.success(request, 'Information has been updated!')
