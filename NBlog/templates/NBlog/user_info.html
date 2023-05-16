@@ -3,6 +3,8 @@
 
 {% block title %}<title>{{ author.bloger_name }}</title>{% endblock %}
 {% block content %}
+{{ author.id }}
+{{ user.id }}
 <div class="content-section">
     <div class="media">
         <img class="rounded-circle account-img" src="{{ author.image.url }}" alt="">
