@@ -3,14 +3,14 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Bloger
 
-@receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    if created:
-        Bloger.objects.create(bloger_name=instance)
-        print(Bloger.objects.get(id=instance.id), 'created')
+# @receiver(post_save, sender=User)
+# def create_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Bloger.objects.create(bloger_name=instance)
+#         print(Bloger.objects.get(id=instance.id), 'created')
 
 
-@receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    instance.bloger.save()
-    print(Bloger.objects.get(id=instance.id), 'saved')
+# @receiver(post_save, sender=User)
+# def save_profile(sender, instance, **kwargs):
+#     instance.bloger.save()
+#     print(Bloger.objects.get(id=instance.id), 'saved')
