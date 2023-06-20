@@ -39,13 +39,20 @@ class PostListView(LoginRequiredMixin, ListView):
     context_object_name = 'posts'
     ordering = ['-post_date']
     paginate_by = 10
+    queryset = Post.objects.select_related('author')
+
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super(PostListView, self).get_context_data(**kwargs)
+    #     context['post'] = Post.objects.select_related('author')
+    #     # context['topics'] = Topic.objects.select_related('user')
+    #     return context
 
 
 @login_required
-def user_info(requset, user_name):
-    author = Bloger.objects.get(bloger_name=User.objects.get(username=user_name))
-    posts = Post.objects.filter(author=Bloger.objects.get(bloger_name=User.objects.get(username=user_name)))
-    return render(requset, 'NBlog/user_info.html', context={
+def user_info(request, user_name):
+    author = Bloger.objects.select_related('bloger_name').get(bloger_name=request.user)
+    posts = Post.objects.select_related('author__bloger_name').filter(author__bloger_name=request.user)
+    return render(request, 'NBlog/user_info.html', context={
         'author': author,
         'posts': posts,
     })
@@ -57,6 +64,7 @@ class BlogersListView(LoginRequiredMixin, ListView):
     context_object_name = 'blogers'
     ordering = ['id']
     paginate_by = 10
+    queryset = Bloger.objects.select_related('bloger_name')
 
 
 @login_required
@@ -69,8 +77,9 @@ def all_blogs(request):
 
 @login_required
 def blog(request, blog_name):
-    blog = Post.objects.get(title=blog_name)
-    comments = Comment.objects.filter(post=Post.objects.get(title=blog_name))
+    blog = Post.objects.select_related('author__bloger_name').get(title=blog_name)
+    comments = Comment.objects.select_related('post', 'author__bloger_name').filter(
+        post=Post.objects.get(title=blog_name))
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
@@ -117,6 +126,7 @@ class CommentUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     fields = ['comment']
     success_url = reverse_lazy('all-blogs')
+    queryset = Comment.objects.select_related('post', 'author')
 
     def test_func(self):
         comment = self.get_object()

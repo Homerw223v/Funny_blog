@@ -2,9 +2,8 @@ from django import forms
 from NBlog.models import Comment, Bloger
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.conf import settings
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV3
+
+
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -39,9 +38,14 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class BlogerUpdateForm(forms.ModelForm):
+
     class Meta:
         model = Bloger
-        fields = ['genre', 'bloger_bio', 'image']
+        fields = ['date_of_birth', 'genre', 'bloger_bio', 'image']
+        widgets = {'date_of_birth': forms.DateInput(attrs={
+                'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)',
+                'class': 'form-control'
+                })}
 
 class CommentForm(forms.ModelForm):
     class Meta:

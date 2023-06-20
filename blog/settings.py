@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_bootstrap4',
     'crispy_forms',
-    'captcha',
+    "debug_toolbar",
+    'rest_framework',
 
 ]
 
@@ -52,6 +53,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 ROOT_URLCONF = 'blog.urls'
@@ -131,7 +137,7 @@ LOGIN_URL = 'login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USER_TLS = True
@@ -140,7 +146,19 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
-RECAPTCHA_PRIVATE_KEY = '6LcqjgsmAAAAADz_iXtbm2a28mqMmBXAQrZDc72d'
-RECAPTCHA_PUBLIC_KEY = '6LcqjgsmAAAAAG7h7294IRzg_RRleihBqRjbqdZt'
-RECAPTCHA_REQUIRED_SCORE = 0.85
-SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
+
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer', # Отображает страницу с понятным интерфейсом
+    ],
+
+    'DEFAULT_PERMISSION_CLASSES': [                         # Base permissions for whole API
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+

@@ -1,3 +1,5 @@
+import time
+
 from django.db import models
 from datetime import datetime
 from django.urls import reverse
@@ -24,7 +26,7 @@ class Bloger(models.Model):
         return f"{self.bloger_name}"
 
     def get_absolute_url(self):
-        return reverse('bloger', args=[str(self.id)])
+        return reverse('user-info', args=[str(self.bloger_name)])
 
     def save(self, **kwargs):
         super().save()
@@ -37,8 +39,7 @@ class Bloger(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=200, help_text='Come up with a title', )
-    post_date = models.DateTimeField(editable=True, max_length=50,
-                                     default=datetime.now())
+    post_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField(max_length=200000, help_text='Write your post here', verbose_name='Content' )
     author = models.ForeignKey(Bloger, on_delete=models.PROTECT)
 
