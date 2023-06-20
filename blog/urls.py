@@ -27,7 +27,6 @@ urlpatterns = [
     path('api/v1/', include('NBlog.api.urls')),
     path('blog/', include('NBlog.urls')),
     path('', RedirectView.as_view(pattern_name='home-page')),
-    path('translator', include('translator.urls')),
     path('blog/', include('django.contrib.auth.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
     path('password-reset/',

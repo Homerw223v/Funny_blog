@@ -39,7 +39,7 @@ class PostListView(LoginRequiredMixin, ListView):
     context_object_name = 'posts'
     ordering = ['-post_date']
     paginate_by = 10
-    queryset = Post.objects.select_related('author')
+    queryset = Post.objects.select_related('author__bloger_name')
 
     # def get_context_data(self, *, object_list=None, **kwargs):
     #     context = super(PostListView, self).get_context_data(**kwargs)
@@ -69,7 +69,7 @@ class BlogersListView(LoginRequiredMixin, ListView):
 
 @login_required
 def all_blogs(request):
-    posts = Post.objects.order_by('-post_date')
+    posts = Post.objects.order_by('-post_date').select_related('author__bloger_name')
     return render(request, 'NBlog/all_blogs.html', context={
         'posts': posts,
     })
