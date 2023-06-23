@@ -1,8 +1,7 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_view
 
 urlpatterns = [
     path('', views.PostListView.as_view(), name='home-page'),
@@ -10,7 +9,7 @@ urlpatterns = [
     path('registration/', views.register, name='registration'),
     path('user/<str:user_name>/', views.user_info, name='user-info'),
     path('bloggers/', views.BlogersListView.as_view(), name='bloggers'),
-    path('profile/update', views.UpdateProfile, name='update-profile'),
+    path('profile/update', views.update_profile, name='update-profile'),
     path('blogs/', views.all_blogs, name='all-blogs'),
     path('blog/<str:blog_name>/', views.blog, name='blog-info'),
     path('create_new_blog', views.PostCreate.as_view(), name='new-blog'),

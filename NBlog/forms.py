@@ -1,8 +1,7 @@
 from django import forms
 from NBlog.models import Comment, Bloger
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-
+from django.contrib.auth.forms import UserCreationForm
 
 
 class UserRegisterForm(UserCreationForm):
@@ -11,8 +10,6 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
-
-
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -38,14 +35,14 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class BlogerUpdateForm(forms.ModelForm):
-
     class Meta:
         model = Bloger
         fields = ['date_of_birth', 'genre', 'bloger_bio', 'image']
         widgets = {'date_of_birth': forms.DateInput(attrs={
-                'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)',
-                'class': 'form-control'
-                })}
+            'type': 'date', 'placeholder': 'yyyy-mm-dd (DOB)',
+            'class': 'form-control'
+        })}
+
 
 class CommentForm(forms.ModelForm):
     class Meta:

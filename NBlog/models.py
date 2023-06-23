@@ -1,5 +1,3 @@
-import time
-
 from django.db import models
 from datetime import datetime
 from django.urls import reverse
@@ -18,7 +16,8 @@ class Bloger(models.Model):
     )
     bloger_name = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     date_of_birth = models.DateField(default=None, null=True, )
-    bloger_bio = models.TextField(max_length=500, blank=True, verbose_name='Biography', help_text='Write about yourself')
+    bloger_bio = models.TextField(max_length=500, blank=True, verbose_name='Biography',
+                                  help_text='Write about yourself')
     genre = models.CharField(max_length=1, choices=GENRE, default='U', help_text='Your Genre')
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
 
@@ -40,7 +39,7 @@ class Bloger(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=200, help_text='Come up with a title', )
     post_date = models.DateTimeField(auto_now_add=True)
-    description = models.TextField(max_length=200000, help_text='Write your post here', verbose_name='Content' )
+    description = models.TextField(max_length=200000, help_text='Write your post here', verbose_name='Content')
     author = models.ForeignKey(Bloger, on_delete=models.PROTECT)
 
     def __str__(self):

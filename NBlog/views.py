@@ -2,14 +2,11 @@ from django.shortcuts import render, redirect
 from .forms import CommentForm, UserRegisterForm, BlogerUpdateForm, UserUpdateForm
 from .models import Bloger, Post, Comment
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from blog.settings import BASE_DIR
-import os
 
 
 # Create your views here.
@@ -41,12 +38,6 @@ class PostListView(LoginRequiredMixin, ListView):
     paginate_by = 10
     queryset = Post.objects.select_related('author__bloger_name')
 
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super(PostListView, self).get_context_data(**kwargs)
-    #     context['post'] = Post.objects.select_related('author')
-    #     # context['topics'] = Topic.objects.select_related('user')
-    #     return context
-
 
 @login_required
 def user_info(request, user_name):
@@ -77,32 +68,27 @@ def all_blogs(request):
 
 @login_required
 def blog(request, blog_name):
-    blog = Post.objects.select_related('author__bloger_name').get(title=blog_name)
+    post = Post.objects.select_related('author__bloger_name').get(title=blog_name)
     comments = Comment.objects.select_related('post', 'author__bloger_name').filter(
         post=Post.objects.get(title=blog_name))
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
-            new_comment.post = blog
+            new_comment.post = post
             new_comment.author = request.user.bloger
             new_comment.save()
             return HttpResponseRedirect(reverse('blog-info', kwargs={'blog_name': blog_name}))
     comment_form = CommentForm()
     return render(request, 'NBlog/blog.html', context={
-        'blog': blog,
+        'blog': post,
         'comment_form': comment_form,
         'comments': comments,
     })
 
-    # blog = Post.objects.get(title=blog_name)
-    # return render(request, 'NBlog/blog.html', context={
-    #     'blog': blog,
-    # })
-
 
 @login_required
-def UpdateProfile(request):
+def update_profile(request):
     form = Bloger.objects.get(bloger_name=request.user)
     user_form = UserUpdateForm(instance=request.user)
     bloger_form = BlogerUpdateForm(instance=form)

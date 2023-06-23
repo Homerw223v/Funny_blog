@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import Comment, Post, Bloger
+
+
 # Register your models here.
-
-
 
 
 @admin.register(Comment)
@@ -18,5 +18,3 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(Bloger)
 class BlogerAdmin(admin.ModelAdmin):
     list_display = ['__str__', 'bloger_bio', 'genre']
-
-
